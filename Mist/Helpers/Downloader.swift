@@ -175,6 +175,10 @@ extension Downloader: URLSessionDownloadDelegate {
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         current = totalBytesWritten
         total = totalBytesExpectedToWrite
+        // If the file is larger than 1GB, slow down output
+        if totalBytesExpectedToWrite > 1073741824 {
+            sleep(10)
+        }
         updateProgress()
     }
 
